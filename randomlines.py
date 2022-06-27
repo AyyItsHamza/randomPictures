@@ -3,7 +3,6 @@ import math
 from tracemalloc import stop
 from samila import *
 import os
-import json
 
 a = random.random()
 b = random.random()
@@ -32,7 +31,3 @@ for i in range(50):
         seeds.append(seed)
         g.plot(projection=Projection.RANDOM , color= random.choice(seq=['red', 'yellow', 'white', 'orange', 'pink', 'cyan']), bgcolor='black')
         g.save_image(os.getcwd()+'\\images4\\image' + str(i) + '.png')
-
-    #save the seeds to a json file
-with open('randomlines_seeds.json', 'w') as outfile:
-    json.dump(seeds, outfile)
