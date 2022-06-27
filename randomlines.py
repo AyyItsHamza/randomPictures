@@ -2,12 +2,18 @@ import random
 import math
 from tracemalloc import stop
 from samila import *
+import os
+import json
 
 a = random.random()
 b = random.random()
 
 x = random.random() * math.e
 y = random.random() * math.pi
+
+seeds =  []
+if not os.path.exists("images4"):
+    os.mkdir(os.getcwd() + "\\images4")
 
 def f1(x,y):
     return random.uniform(-1,1) - math.sin(y**2)
@@ -19,5 +25,14 @@ def f2(x,y):
 for i in range(50):
     g = GenerativeImage(f1, f2)
     g.generate()
-    g.plot(projection=Projection.RANDOM , color= random.choice(seq=['red', 'yellow', 'white', 'orange', 'pink', 'cyan']), bgcolor='black')
-    g.save_image('D:\\randomPictures\\images4\\image' + str(i) + '.png')
+
+    #add unique seeds to the list
+    seed = g.seed
+    if seed not in seeds:
+        seeds.append(seed)
+        g.plot(projection=Projection.RANDOM , color= random.choice(seq=['red', 'yellow', 'white', 'orange', 'pink', 'cyan']), bgcolor='black')
+        g.save_image(os.getcwd()+'\\images4\\image' + str(i) + '.png')
+
+    #save the seeds to a json file
+with open('randomlines_seeds.json', 'w') as outfile:
+    json.dump(seeds, outfile)
